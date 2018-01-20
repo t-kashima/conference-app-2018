@@ -21,6 +21,7 @@ import io.github.droidkaigi.confsched2018.model.Session
 import io.github.droidkaigi.confsched2018.presentation.NavigationController
 import io.github.droidkaigi.confsched2018.presentation.Result
 import io.github.droidkaigi.confsched2018.presentation.sessions.item.DateSessionsSection
+import io.github.droidkaigi.confsched2018.presentation.sessions.item.FavoriteSessionsSection
 import io.github.droidkaigi.confsched2018.presentation.sessions.item.SpeechSessionItem
 import io.github.droidkaigi.confsched2018.util.ext.addOnScrollListener
 import io.github.droidkaigi.confsched2018.util.ext.isGone
@@ -35,7 +36,7 @@ class FavoriteSessionsFragment : Fragment(), Injectable {
 
     private lateinit var binding: FragmentFavoriteSessionsBinding
 
-    private val sessionsSection = DateSessionsSection(this)
+    private val sessionsSection = FavoriteSessionsSection(this)
 
     @Inject lateinit var navigationController: NavigationController
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -66,8 +67,7 @@ class FavoriteSessionsFragment : Fragment(), Injectable {
             when (result) {
                 is Result.Success -> {
                     val sessions = result.data
-                    sessionsSection.updateSessions(
-                            sessions, onFavoriteClickListener, simplify = true)
+                    sessionsSection.updateSessions(sessions, onFavoriteClickListener)
                     binding.mysessionInactiveGroup.setVisible(sessions.isEmpty())
                     binding.sessionsRecycler.setVisible(sessions.isNotEmpty())
                 }

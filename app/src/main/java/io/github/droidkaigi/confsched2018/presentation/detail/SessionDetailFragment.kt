@@ -12,6 +12,7 @@ import io.github.droidkaigi.confsched2018.R
 import io.github.droidkaigi.confsched2018.databinding.FragmentSessionDetailBinding
 import io.github.droidkaigi.confsched2018.di.Injectable
 import io.github.droidkaigi.confsched2018.model.Session
+import io.github.droidkaigi.confsched2018.presentation.NavigationController
 import io.github.droidkaigi.confsched2018.presentation.Result
 import io.github.droidkaigi.confsched2018.util.CustomGlideApp
 import io.github.droidkaigi.confsched2018.util.ext.observe
@@ -26,6 +27,7 @@ class SessionDetailFragment : Fragment(), Injectable {
     private lateinit var binding: FragmentSessionDetailBinding
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject lateinit var navigationController: NavigationController
 
     private val sessionDetailViewModel: SessionDetailViewModel by lazy {
         ViewModelProviders.of(activity!!, viewModelFactory).get(SessionDetailViewModel::class.java)
@@ -63,6 +65,9 @@ class SessionDetailFragment : Fragment(), Injectable {
             sessionDetailViewModel.onFavoriteClick(session)
         }
         binding.sessionTopic.text = session.topic.getNameByLang(lang())
+        binding.sessionTopic.setOnClickListener {
+            navigationController.navigateToTopicDetailActivity(session.topic.id)
+        }
     }
 
     companion object {
